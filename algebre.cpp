@@ -6,12 +6,12 @@
 
 using namespace std;
 
+
 template rationnel<long long>;
 template polynome<rationnel<long long>>;
 template rationnel<polynome<rationnel<long long>>>;
 
-
-//template matrice<double>;
+template matrice<double>;
 
 
 //template rationnel<polynome<double>>;
@@ -19,9 +19,12 @@ template rationnel<polynome<rationnel<long long>>>;
 
 //fraction
 
+
+
 int main()
 {
     long question;
+//    auto x = 4.5 % 4.1;
 
     /*
 //    polynome<rationnel<long>> mon_polynome(mon_vecteur);
@@ -86,7 +89,7 @@ int main()
     matrice<rationnel<long long>> m_matrice(vec);
 
     //    polynome<rationnel<long>> m_poly = m_matrice.polynomeCaracteristique();
-    auto det = m_matrice.determinant();
+    auto det = m_matrice.determinant_corps();
     cout << "determinant " << endl << det << endl << endl;
     cin >> question;
 
@@ -111,6 +114,14 @@ int main()
 //    cout << (double )rationnel<long>(3, 7) << endl << endl;
     cout << (polynome<double>) polyCar << endl << endl;
     cin >> question;
+
+    matrice<double> m_matrice_d = (matrice<double>) m_matrice;
+    auto inv_d = m_matrice_d.inverse();
+    cout << "inverse :" << endl << inv_d << endl;
+    cout << "matrice double " << endl;
+    cout << m_matrice_d << endl;
+    cin >> question;
+
 
     /*
     vector<vector<corps>> vec = { { corps(1,11), corps(2,11), corps(3,11)},{corps(5,11),corps(7,11),corps(8,11)}, {corps(4,11),corps(2,11),corps(1,11) } };

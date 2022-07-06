@@ -84,4 +84,6 @@ public:
 	T x;
 	T y;
 
+	static bool type;
 };
+

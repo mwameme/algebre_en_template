@@ -94,7 +94,7 @@ public:
             return faux;
 
         while ((bool) r) {
-            r = (T) (x%y);
+            r = (x%y);
 //            r = x - y * (x / y);
 
             x = y;
@@ -197,6 +197,8 @@ public:
 
     T numerateur;
     T denominateur;
+
+    static bool type; // corps
 };
 
 template rationnel<long long>;
@@ -206,3 +208,9 @@ template<> rationnel<long long> :: operator double() const {
     result = ((double)numerateur) / ((double)denominateur);
     return result;
 };
+
+/*
+template<> double rationnel<double>::PGCD() const {
+    return (double)1.;
+};
+*/

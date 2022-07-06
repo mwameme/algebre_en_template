@@ -16,13 +16,18 @@ template<class T> polynome<T> derivee(const polynome<T>& element);
 template<class T> matrice<T> derivee(const matrice<T>& element);
 
 
-
 #include <iostream>
 #include "polynome.hpp"
 #include "rationnel.hpp"
 #include "matrice.hpp"
 #include "corps fini.hpp"
 #include "complexe.hpp"
+
+template<class T> bool rationnel<T>::type = true;
+template<class T> bool polynome<T>::type = false;
+template<class T> bool matrice<T>::type = true;
+template<class T> bool complexe<T>::type = true;
+bool corps::type = true;
 
 template<class T> void rationnel<T>::simplifier() {
     T pgcd = PGCD();
@@ -41,8 +46,8 @@ template<class T> void rationnel<T>::simplifier() {
     return;
 };
 
-
-template<class T> void rationnel<polynome<T>>::simplifier() {
+/*
+template<class T> void rationnel<polynome<T>> :: simplifier() {
     polynome<T> pgcd = PGCD();
 
     if (pgcd.degre >= 1) {
@@ -53,7 +58,7 @@ template<class T> void rationnel<polynome<T>>::simplifier() {
     return;
 
 };
-
+*/
 
 
 long long f_PPCM(long long a, long long b);
@@ -151,4 +156,3 @@ long long f_PGCD(long long a, long long b) { // a est non-nul
     };
     return x;
 };
-

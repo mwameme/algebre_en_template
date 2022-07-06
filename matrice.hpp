@@ -41,12 +41,17 @@ public :
 		return false;
 	};
 
-	template<class U> operator matrice<U>()const {
-		matrice<U> result(*this);
+	template<class U> operator matrice<U> () const {
+		matrice<U> result;
+		result.taille = taille;
+		result.coeffs.resize(taille);
+		for (int i(0); i < taille; ++i)
+			result.coeffs[i].resize(taille);
+		
 
 		for (int i(0); i < taille; ++i)
 			for (int j(0); j < taille; ++j)
-				result.coeffs[i][j] = (U)coeffs[i][j];
+				result.coeffs[i][j] = (U) coeffs[i][j];
 
 		return result;
 	};
@@ -68,6 +73,12 @@ public :
 		for (int i(0); i < result.taille; ++i)
 			for (int j(0); j < result.taille; ++j)
 				result.coeffs[i][j] = scalaire * result.coeffs[i][j];
+		return result;
+	};
+
+	friend matrice<T> operator%(const matrice<T>& temp1, const matrice<T>& temp2) {
+		matrice<T> result = temp1;
+		result = false;
 		return result;
 	};
 
@@ -122,32 +133,70 @@ public :
 		return result;
 	};
 
-	T determinant() const {
+	/*
+	T determinant_anneau() const {
+		matrice<rationnel<T>> m_matrice;
 		T vrai = coeffs[0][0];
 		vrai = true;
+		rationnel<T> det(vrai, vrai);
 
-		matrice<rationnel<T>> m_matrice(taille,rationnel<T>(vrai,vrai));
+		m_matrice.taille = taille;
+		m_matrice.coeffs.resize(taille);
 		for (int i(0); i < taille; ++i)
-			for (int j(0); j < taille; ++j)
+			m_matrice.coeffs[i].resize(taille);
+
+		for(int i(0);i<taille;++i)
+			for (int j(0); j < taille; ++j) 
 				m_matrice.coeffs[i][j] = rationnel<T>(coeffs[i][j], vrai);
-
-
-		rationnel<T> det(vrai,vrai);
-
-		std::cout << "avant boucle determinant" << std::endl;
-		int question;
-		std::cin >> question;
-
+			
 		for (int i(0); i < taille; ++i) {
 			int j;
-			for (j=i; j < taille; ++j) {
-				if ((bool) coeffs[i][j])
+			for (j = i; j < taille; ++j) {
+				if ((bool)m_matrice.coeffs[i][j])
 					break;
 			}
 			if (j == taille)
-				return (vrai = false);
-			if (!((bool)coeffs[i][j]))
-				return (vrai = false);
+				return (det = false);
+			if (!((bool)m_matrice.coeffs[i][j]))
+				return (det = false);
+			if (i != j) {
+				m_matrice.echangerLigne(i, j);
+				det = -det;
+			}
+			for (j = i + 1; j < taille; ++j) {
+				m_matrice.ajouterLigne(i, j, ((-m_matrice.coeffs[j][i]) / m_matrice.coeffs[i][i]));
+			}
+
+		}
+
+		for (int i(0); i < taille; ++i)
+			det = (det * m_matrice.coeffs[i][i]);
+
+		return det.numerateur / det.denominateur;
+	};
+	*/
+
+	T determinant_corps() const { 
+		matrice<T> m_matrice(*this);
+
+		T det;
+		det = coeffs[0][0];
+		det = true;
+
+//		std::cout << "avant boucle determinant" << std::endl;
+//		int question;
+//		std::cin >> question;
+//
+		for (int i(0); i < taille; ++i) {
+			int j;
+			for (j=i; j < taille; ++j) {
+				if ((bool) m_matrice.coeffs[i][j])
+					break;
+			}
+			if (j == taille)
+				return (det = false);
+//			if (!((bool) m_matrice.coeffs[i][j]))
+//				return (det = false);
 			if (i != j) {
 				m_matrice.echangerLigne(i, j);
 				det = - det;
@@ -158,20 +207,18 @@ public :
 			
 		}
 
-		std::cout << "avant calcul det (multiplication)" << std::endl << std::endl;
-		std::cout << m_matrice << std::endl;	
-		std::cin >> question;
+//		std::cout << "avant calcul det (multiplication)" << std::endl << std::endl;
+//		std::cout << m_matrice << std::endl;	
+//		std::cin >> question;
 
 		for (int i(0); i < taille; ++i)
 			det = (det * m_matrice.coeffs[i][i]);
 
 
-		std::cout << "avant fraction determinant" << std::endl;
-		std::cout << det;
-		std::cin >> question;
-		return (det.numerateur / det.denominateur);
-
-
+//		std::cout << "avant fraction determinant" << std::endl;
+//		std::cout << det;
+//		std::cin >> question;
+		return det;
 	};
 
 	void echangerLigne(int i, int j) {
@@ -241,33 +288,39 @@ public :
 		return resultat;
 	};
 
-
+	
 	polynome<T> polynomeCaracteristique() const {
 		T faux = coeffs[0][0];
 		faux = false;
 
-		T mvrai = faux;
-		mvrai = true;
+		T vrai = faux;
+		vrai = true;
+
+		T mvrai = vrai;
 		mvrai = -mvrai;
 
-		polynome<T> m_poly(faux);
-		matrice<polynome<T>> m_matrice(taille, m_poly);
+		rationnel<polynome<T>> m_poly = rationnel<polynome<T>>(polynome<T>(vrai), polynome<T>(vrai));
+
+		matrice<rationnel<polynome<T>>> m_matrice(taille, m_poly);
 
 		for (int i(0); i < taille; ++i)
 			for (int j(0); j < taille; ++j)
 				if (i != j)
-					m_matrice.coeffs[i][j] = polynome<T>(coeffs[i][j]);
+					m_matrice.coeffs[i][j] = rationnel<polynome<T>>(polynome<T>(coeffs[i][j]), polynome<T>(vrai));
 				else
-					m_matrice.coeffs[i][j] = polynome<T>(std::vector<T>{ coeffs[i][j], mvrai });
+					m_matrice.coeffs[i][j] = rationnel<polynome<T>>(polynome<T>(std::vector<T>{ coeffs[i][j], mvrai }), polynome<T>(vrai));
 
-		std::cout << "avant det (polycar)" << std::endl;
-		std::cout << m_matrice << std::endl;
-		int question;
-		std::cin >> question;
+//		std::cout << "avant det (polycar)" << std::endl;
+//		std::cout << m_matrice << std::endl;
+//		int question;
+//		std::cin >> question;
 
-		return (m_matrice.determinant());
+		rationnel<polynome<T>> det = m_matrice.determinant_corps();
+		return (det.numerateur / det.denominateur);
+
 
 	};
+	
 
 	friend std::ostream& operator<<(std::ostream& os, const matrice<T>& element) {
 		os << "{ ";
@@ -286,6 +339,8 @@ public :
 
 	int taille;
 	std::vector < std::vector< T>> coeffs;
+
+	static bool type;
 };
 
 template matrice<rationnel<long long>>;

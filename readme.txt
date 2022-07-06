@@ -14,10 +14,10 @@ Pour utiliser la class des rationnel sur une autre classe (la classe des coeffic
 -de faire attention que le denominateur soit différent de 0
 -qu'il y ait l'opération =(true / false) pour mettre un coefficient valant 0 (l'élément neutre de l'addition) ou valant 1 (l'élément neutre de la multiplication)
 -qu'il y ait une division et un reste (de la division) partielle : utilisé pour réduire les fractions (diviser le numérateur et le dénominateur par le PGCD, calculé avec / et %)
-les rationnels ont les opérations + - * et / (exacte). Le reste (%) est mis à  (la division est exacte). L'opératin =true/false met le numerateur = true/false, et le denominateur = true;
+les rationnels ont les opérations + - * et / (exacte). Le reste (%) est mis à 0 (la division est exacte). L'opératin =true/false met le numerateur = true/false, et le denominateur = true;
 
 Quand on utilise les corps fini, attention que p soit un nombre premier, et le même des deux côtés (lors des opérations).
-C'est un corps, donc il y a + - * /, et le reste est mis à 0 (utilisé lors du pgcd).
+C'est un corps, donc il y a + - * /, et le reste (de la divisio) est mis à 0 (utilisé lors du pgcd).
 le "= true/false" met x = 0 ou 1
 
 Idem, le corps des nombres complexes est un corps ... vérifier avant division que le nombre est non-nul.

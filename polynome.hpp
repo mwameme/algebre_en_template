@@ -364,12 +364,14 @@ public:
             for (int j(0); j < poly2.coeffs.size(); ++j)
                 m_matrice.coeffs[i + poly2.degre][i + j] = poly2.coeffs[j];
 
-        return m_matrice.determinant();
+        return m_matrice.determinant_corps();
     };
 
     //protected:
     int degre;
     std::vector<T> coeffs;
+
+    static bool type;
 };
 
 

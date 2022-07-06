@@ -113,4 +113,6 @@ public:
 
 	int x;
     int p;
+
+    static bool type;
 };
